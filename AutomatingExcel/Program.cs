@@ -38,7 +38,6 @@ namespace AutomatingExcel
 
                 foreach (var items in ws.Cells)
                 {
-                    //Validation
                     if (Validate(items.Text))
                     {
                         string[] card;
@@ -48,8 +47,6 @@ namespace AutomatingExcel
                     }
                 }
             }
-            //Prevent console instant closing
-            Console.ReadKey();
         }
 
         private static bool Validate(string itemText)
