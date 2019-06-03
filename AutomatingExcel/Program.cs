@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -40,10 +40,10 @@ namespace AutomatingExcel
                 {
                     if (Validate(items.Text))
                     {
-                        string[] card;
-                        card = Seperate(items.Text);
+                        string[] cardNumber;
+                        cardNumber = Seperate(items.Text);
 
-                        Console.WriteLine(items.Text + "\t" + card[0] + "\t" + card[1] + "\t");
+                        Console.WriteLine(items.Text + "\t" + cardNumber[0] + "\t" + cardNumber[1] + "\t");
                     }
                 }
             }
@@ -51,33 +51,17 @@ namespace AutomatingExcel
 
         private static bool Validate(string itemText)
         {
-            if (itemText.Length == 8)
-            {
-                if (ValidateCardInitial(itemText))
-                {
-                    if (int.TryParse(itemText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int temp))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return (itemText.Length == 8)
+            && (ValidateCardInitial(itemText))
+            && (int.TryParse(itemText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int temp));
         }
 
         private static bool ValidateCardInitial(string value)
         {
+            List<string> validInitialValues = new List<string> {"A10", "AXI", "277"};
+
             string truncValue = value.Substring(0, 3);
-            switch (truncValue)
-            {
-                case "A10":
-                    return false;
-                case "AXI":
-                    return false;
-                case "277": //This is EventID
-                    return false;
-                default:
-                    return true;
-            }
+            return (!validInitialValues.Contains(truncValue));
         }
 
         private static string[] Seperate(string value)
