@@ -51,9 +51,11 @@ namespace AutomatingExcel
 
         private static bool Validate(string itemText)
         {
-            return (itemText.Length == 8)
+            const int cardLength = 8; 
+
+            return ((itemText.Length == cardLength)
             && (ValidateCardInitial(itemText))
-            && (int.TryParse(itemText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int temp));
+            && (int.TryParse(itemText, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int temp)));
         }
 
         private static bool ValidateCardInitial(string value)
@@ -66,28 +68,28 @@ namespace AutomatingExcel
 
         private static string[] Seperate(string value)
         {
-            string[] card = new string[2];
+            string[] cardNumber = new string[2];
 
             //Check if character begins with 42D
             if (value.Substring(0, 3) == "42D")
             {
-                card[0] = value.Substring(0, 3);
+                cardNumber[0] = value.Substring(0, 3);
 
                 if ((int.TryParse(value.Substring(3, value.Length - 3), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int hexSecondPart)))
                 {
-                    card[1] = hexSecondPart.ToString();
+                    cardNumber[1] = hexSecondPart.ToString();
                 }
             }
             else
             {
-                card[0] = value.Substring(0, 4);
+                cardNumber[0] = value.Substring(0, 4);
 
                 if ((int.TryParse(value.Substring(4, value.Length - 4), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int hexSecondPart)))
                 {
-                    card[1] = hexSecondPart.ToString();
+                    cardNumber[1] = hexSecondPart.ToString();
                 }
             }
-            return card;
+            return cardNumber;
         }
     }
 }
